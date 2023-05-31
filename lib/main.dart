@@ -2,7 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:privateproject/views/login_view.dart';
-
+import 'package:privateproject/views/register_view.dart';
+import 'package:privateproject/views/verify_email_view.dart';
 import 'firebase_options.dart';
 
 void main() {
@@ -10,10 +11,14 @@ void main() {
   runApp(MaterialApp(
     title: 'Flutter Demo',
     theme: ThemeData(
-      colorScheme:
-          ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 127, 53, 255)),
+      colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 127, 53, 255)),
       useMaterial3: true,
     ),
+    routes: {
+      '/login': (context) => const LoginView(),
+      '/register': (context) => const RegisterView(),
+    },
     home: const HomePage(),
   ));
 }
@@ -23,30 +28,28 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home'),
+    return FutureBuilder(
+      future: Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
       ),
-      body: FutureBuilder(
-        future: Firebase.initializeApp(
-          options: DefaultFirebaseOptions.currentPlatform,
-        ),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              final user = FirebaseAuth.instance.currentUser;
-              if (user!.emailVerified) {
-                print('You are verified');
-                return const Text("Done");
-              } else {
-                print('Email not verified');
-                return const Text('Email not verified');
-              }
-            default:
-              return const Text("Loading...");
-          }
-        },
-      ),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
+            print(user);
+            if (user?.emailVerified ?? false) {
+              print('You are verified');
+              return const LoginView();
+            } else {
+              print('Email not verified');
+
+              return const VerifyEmail();
+            }
+
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
     );
   }
 }
