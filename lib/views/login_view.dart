@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:privateproject/constants/route.dart';
 import 'package:privateproject/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -62,15 +63,15 @@ class _HomePageState extends State<LoginView> {
                     .signInWithEmailAndPassword(
                         email: email, password: password);
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/notes',
+                  notesRoute,
                   (route) => false,
                 );
                 log(userCredential.credential.toString());
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'user-not-found') {
-                  print('User not found');
+                  log('User not found');
                 } else if (e.code == 'wrong-password') {
-                  print("Wrong password");
+                  log("Wrong password");
                 }
               }
             },
@@ -79,7 +80,7 @@ class _HomePageState extends State<LoginView> {
           TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  '/register',
+                  registerRoute,
                   (route) => false,
                 );
               },
