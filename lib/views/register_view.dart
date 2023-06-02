@@ -5,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:privateproject/constants/route.dart';
 
+import '../utilities/show_error_dialog.dart';
+
 class RegisterView extends StatefulWidget {
   const RegisterView({super.key});
 
@@ -63,13 +65,25 @@ class _HomePageState extends State<RegisterView> {
                     email: email, password: password);
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'weak-password') {
-                  log('Weak Password');
+                  showErrorDialog(
+                    context,
+                    'Weak Password',
+                  );
                 } else if (e.code == 'wrong-password') {
-                  log("Wrong password");
+                  showErrorDialog(
+                    context,
+                    'Wrong Password',
+                  );
                 } else if (e.code == 'email-already-in-use') {
-                  log('Email is already in use');
+                  showErrorDialog(
+                    context,
+                    'Email is already in use',
+                  );
                 } else if (e.code == 'invalid-email') {
-                  log('Invalid email entered');
+                  showErrorDialog(
+                    context,
+                    'Invalid Email',
+                  );
                 }
               }
             },

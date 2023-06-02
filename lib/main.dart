@@ -22,7 +22,7 @@ void main() {
       registerRoute: (context) => const RegisterView(),
       notesRoute: (context) => const NotesView(),
     },
-    home: const HomePage(),
+    home: const LoginView(),
   ));
 }
 
