@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:privateproject/constants/route.dart';
-
 import '../utilities/show_error_dialog.dart';
 
 class RegisterView extends StatefulWidget {
@@ -63,16 +60,16 @@ class _HomePageState extends State<RegisterView> {
               try {
                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
                     email: email, password: password);
+                    final user = FirebaseAuth.instance.currentUser;
+                await user?.sendEmailVerification();
+                Navigator.of(context).pushNamed(
+                  verifyEmailRoute,
+                );
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'weak-password') {
                   showErrorDialog(
                     context,
                     'Weak Password',
-                  );
-                } else if (e.code == 'wrong-password') {
-                  showErrorDialog(
-                    context,
-                    'Wrong Password',
                   );
                 } else if (e.code == 'email-already-in-use') {
                   showErrorDialog(
@@ -84,7 +81,17 @@ class _HomePageState extends State<RegisterView> {
                     context,
                     'Invalid Email',
                   );
+                } else {
+                  showErrorDialog(
+                    context,
+                    e.code,
+                  );
                 }
+              } catch (e) {
+                showErrorDialog(
+                  context,
+                  e.toString(),
+                );
               }
             },
             child: const Text('Register'),
@@ -92,7 +99,7 @@ class _HomePageState extends State<RegisterView> {
           TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  loginRoute,
+                  verifyEmailRoute,
                   (route) => false,
                 );
               },
