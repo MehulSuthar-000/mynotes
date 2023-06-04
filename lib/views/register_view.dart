@@ -60,7 +60,7 @@ class _HomePageState extends State<RegisterView> {
               try {
                 await FirebaseAuth.instance.createUserWithEmailAndPassword(
                     email: email, password: password);
-                    final user = FirebaseAuth.instance.currentUser;
+                final user = FirebaseAuth.instance.currentUser;
                 await user?.sendEmailVerification();
                 Navigator.of(context).pushNamed(
                   verifyEmailRoute,
@@ -99,7 +99,7 @@ class _HomePageState extends State<RegisterView> {
           TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamedAndRemoveUntil(
-                  verifyEmailRoute,
+                  loginRoute,
                   (route) => false,
                 );
               },
