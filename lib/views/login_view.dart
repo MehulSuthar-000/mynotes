@@ -55,6 +55,7 @@ class _HomePageState extends State<LoginView> {
           ),
           TextButton(
             onPressed: () async {
+              
               final email = _email.text;
               final password = _password.text;
               try {
@@ -91,7 +92,7 @@ class _HomePageState extends State<LoginView> {
                   'Authentication Error',
                 );
               }
-             },
+            },
             child: const Text('Login'),
           ),
           TextButton(
