@@ -11,12 +11,12 @@ class CreateUpdateNoteView extends StatefulWidget {
 }
 
 class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
-  DatabaseNotes? _note;
+  DatabaseNote? _note;
   late final NotesService _notesService;
   late final TextEditingController _textController;
 
-  Future<DatabaseNotes> createOrGetExistingNote(BuildContext context) async {
-    final widgetNote = context.getArgument<DatabaseNotes>();
+  Future<DatabaseNote> createOrGetExistingNote(BuildContext context) async {
+    final widgetNote = context.getArgument<DatabaseNote>();
     if (widgetNote != null) {
       _note = widgetNote;
       _textController.text = widgetNote.text;
@@ -53,7 +53,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     final text = _textController.text;
     if (note != null && text.isNotEmpty) {
       await _notesService.updateNote(
-        notes: note,
+        note: note,
         text: text,
       );
     }
@@ -66,7 +66,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     }
     final text = _textController.text;
     await _notesService.updateNote(
-      notes: note,
+      note: note,
       text: text,
     );
   }
@@ -95,7 +95,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.done:
-                _note = snapshot.data as DatabaseNotes;
+                _note = snapshot.data as DatabaseNote;
                 _setupTextControllerListener();
                 return TextField(
                   controller: _textController,
