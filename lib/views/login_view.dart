@@ -1,3 +1,4 @@
+import 'package:privateproject/constants/colors.dart';
 import 'package:privateproject/constants/route.dart';
 import 'package:flutter/material.dart';
 import 'package:privateproject/services/auth/auth_exception.dart';
@@ -34,9 +35,17 @@ class _HomePageState extends State<LoginView> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Login"),
+        backgroundColor: darkGrey,
+        titleTextStyle: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          letterSpacing: 1.5,
+        ),
+        centerTitle: true,
       ),
       body: Column(
         children: [
+          
           TextField(
             controller: _email,
             enableSuggestions: false,
@@ -55,7 +64,6 @@ class _HomePageState extends State<LoginView> {
           ),
           TextButton(
             onPressed: () async {
-              
               final email = _email.text;
               final password = _password.text;
               try {

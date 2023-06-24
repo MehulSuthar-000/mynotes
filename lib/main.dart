@@ -10,6 +10,7 @@ import 'package:privateproject/views/verify_email_view.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
     title: 'Flutter Demo',
     theme: ThemeData(
       colorScheme: ColorScheme.fromSeed(
