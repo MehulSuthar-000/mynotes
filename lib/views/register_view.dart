@@ -59,7 +59,7 @@ class _HomePageState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                await AuthService.firebase().logIn(
+                await AuthService.firebase().createUser(
                   email: email,
                   password: password,
                 );
